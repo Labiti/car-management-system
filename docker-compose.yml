@@ -1,0 +1,69 @@
+services:
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: car_management_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root2026!@
+      MYSQL_DATABASE: car_management_db
+      MYSQL_USER: car_user
+      MYSQL_PASSWORD: root2026!@
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - car_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot2026!@"]
+      timeout: 20s
+      retries: 10
+      interval: 10s
+
+  # Backend API
+  backend:
+    build: ./backend
+    container_name: car_management_backend
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_NAME: car_management_db
+      DB_USER: car_user
+      DB_PASSWORD: root2026!@
+      DB_HOST: db
+      DB_PORT: 3306
+      DEBUG: 'True'
+      DJANGO_SECRET_KEY: 'django-insecure-8x!2w9q3m5k7v9b1n3p5r7t9v2w4x6z8a0b2c4d6f8h0j2k4l6m8n0q2s4u6w8'
+      ALLOWED_HOSTS: 'localhost,127.0.0.1'
+      CORS_ALLOWED_ORIGINS: 'http://localhost,http://localhost:8001'
+    ports:
+      - "8001:8000"  # Changed: host port 8001, container port 8000
+    networks:
+      - car_network
+    volumes:
+      - backend_media:/app/media
+      - backend_static:/app/staticfiles
+
+  # Frontend React
+  frontend:
+    build: ./frontend
+    container_name: car_management_frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"  # Changed: host port 3000 instead of 8001
+    networks:
+      - car_network
+
+networks:
+  car_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  backend_media:
+  backend_static:

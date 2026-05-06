@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white; padding: 20px; text-align: center; border-radius: 10px 10px 0 0; }
+        .content { background: #f9f9f9; padding: 20px; border-radius: 0 0 10px 10px; }
+        .booking-details { background: white; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .status-rejected { background: #dc3545; color: white; padding: 5px 10px; border-radius: 5px; display: inline-block; }
+        .reason { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin-top: 15px; }
+        .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #999; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>❌ Booking Rejected</h2>
+            <p>Your car booking request was not approved</p>
+        </div>
+        <div class="content">
+            <h3>Hi {{ booking.employee.get_full_name|default:booking.employee.username }},</h3>
+            <p>We regret to inform you that your car booking request has been <strong>REJECTED</strong>.</p>
+            
+            <div class="booking-details">
+                <h4>📋 Booking Details</h4>
+                <div class="detail-row"><span class="label">Car:</span> {{ car.brand }} {{ car.model }} ({{ car.registration_number }})</div>
+                <div class="detail-row"><span class="label">Destination:</span> {{ destination }}</div>
+                <div class="detail-row"><span class="label">Start Time:</span> {{ start_time|date:"F j, Y, g:i a" }}</div>
+                <div class="detail-row"><span class="label">Status:</span> <span class="status-rejected">Rejected</span></div>
+            </div>
+            
+            {% if comments %}
+            <div class="reason">
+                <strong>📝 Reason for Rejection:</strong>
+                <p>{{ comments }}</p>
+            </div>
+            {% endif %}
+            
+            <p>You can submit a new booking request with different dates or contact your manager for more information.</p>
+            <p><a href="http://localhost:3000/cars" style="background: #667eea; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">Book Another Car</a></p>
+        </div>
+        <div class="footer">
+            <p>&copy; {% now "Y" %} Fleet Car Management System. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

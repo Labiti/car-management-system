@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; text-align: center; border-radius: 10px 10px 0 0; }
+        .content { background: #f9f9f9; padding: 20px; border-radius: 0 0 10px 10px; }
+        .booking-details { background: white; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .status-pending { background: #ffc107; color: #333; padding: 5px 10px; border-radius: 5px; display: inline-block; }
+        .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #999; }
+        h2 { margin: 0; }
+        .detail-row { margin: 10px 0; }
+        .label { font-weight: bold; width: 120px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>🚗 Fleet Car Management</h2>
+            <p>Booking Request Submitted</p>
+        </div>
+        <div class="content">
+            <h3>Hi {{ booking.employee.get_full_name|default:booking.employee.username }},</h3>
+            <p>Your car booking request has been submitted successfully and is now pending manager approval.</p>
+            
+            <div class="booking-details">
+                <h4>📋 Booking Details</h4>
+                <div class="detail-row"><span class="label">Car:</span> {{ car.brand }} {{ car.model }} ({{ car.registration_number }})</div>
+                <div class="detail-row"><span class="label">Destination:</span> {{ destination }}</div>
+                <div class="detail-row"><span class="label">Purpose:</span> {{ purpose }}</div>
+                <div class="detail-row"><span class="label">Start Time:</span> {{ start_time|date:"F j, Y, g:i a" }}</div>
+                <div class="detail-row"><span class="label">End Time:</span> {{ end_time|date:"F j, Y, g:i a" }}</div>
+                <div class="detail-row"><span class="label">Status:</span> <span class="status-pending">Pending Approval</span></div>
+            </div>
+            
+            <p>You will receive another email once your manager reviews the request.</p>
+            <p><a href="http://localhost:3000/my-bookings" style="background: #667eea; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">View My Bookings</a></p>
+        </div>
+        <div class="footer">
+            <p>&copy; {% now "Y" %} Fleet Car Management System. All rights reserved.</p>
+            <p>This is an automated message, please do not reply.</p>
+        </div>
+    </div>
+</body>
+</html>
