@@ -143,11 +143,13 @@ AUTH_USER_MODEL = 'accounts.User'
 
 # ========== CORS CONFIGURATION ==========
 # Allow all origins for development (restrict in production)
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
 
 # Specific allowed origins (for production)
 CORS_ALLOWED_ORIGINS = [
+     "https://car-management-frontend-w283.onrender.com",
+    "https://car-management-frontend-w283.onrender.com",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost:8001",
