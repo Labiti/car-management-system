@@ -49,8 +49,14 @@ class UserViewSet(viewsets.ModelViewSet):
             user = serializer.save()
             refresh = RefreshToken.for_user(user)
 
-             # Send welcome email
-            send_welcome_email(user)
+            # Send welcome email - CRITICAL: Wrap in try-except to prevent 500 errors
+            try:
+                send_welcome_email(user)
+                print(f"Welcome email sent to {user.email}")
+            except Exception as email_error:
+                # Catch ANY email error so registration still succeeds
+                print(f"Email sending failed (non-critical error): {str(email_error)}")
+                # Don't fail the registration just because email failed
             
             return Response({
                 'user': UserSerializer(user).data,

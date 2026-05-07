@@ -82,7 +82,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.getenv('DB_NAME', 'car_management_db'),
-        'USER': os.getenv('DB_USER', 'car_user'),
+        'USER': os.getenv('DB_USER', 'caruser'),
         'PASSWORD': os.getenv('DB_PASSWORD', 'root2026!@'),
         'HOST': os.getenv('DB_HOST', 'localhost'),
         'PORT': os.getenv('DB_PORT', '3306'),
@@ -99,12 +99,13 @@ if os.getenv('RENDER'):
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.getenv('DB_NAME', 'car_management_db'),
-            'USER': os.getenv('DB_USER', 'car_user'),
-            'PASSWORD': os.getenv('DB_PASSWORD', 'root2026!@'),
+        'USER': os.getenv('DB_USER', 'caruser'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'Zca0OK99mkL1NWwEvNaRV59TcFAArQiF'),
             'HOST': os.getenv('DB_HOST'),
             'PORT': os.getenv('DB_PORT', '5432'),
         }
     }
+    
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -148,7 +149,6 @@ CORS_ALLOW_CREDENTIALS = True
 
 # Specific allowed origins (for production)
 CORS_ALLOWED_ORIGINS = [
-     "https://car-management-frontend-w283.onrender.com",
     "https://car-management-frontend-w283.onrender.com",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
@@ -254,13 +254,19 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 # =====================================================
 
-# ========== EMAIL CONFIGURATION (For notifications) ==========
+# ========== EMAIL CONFIGURATION (FIXED - NO DUPLICATES) ==========
+# Single email configuration - USE THIS ONLY
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # Or your SMTP server
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv('EMAIL_USER', '')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD', '')
+EMAIL_HOST_USER = os.getenv('EMAIL_USER', 'slabiti1010@gmail.com')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD', 'lxagjigzvodozuje')
+DEFAULT_FROM_EMAIL = f'Fleet Car Management <{EMAIL_HOST_USER}>'
+
+# For development testing (print emails to console instead of sending)
+# Uncomment this line and comment the above EMAIL_BACKEND to test without real emails:
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # ==============================================================
 
 # ========== LOGGING CONFIGURATION ==========
@@ -286,28 +292,13 @@ LOGGING = {
             'level': 'INFO',
             'propagate': False,
         },
-        'django.db.backends': {
+        'accounts': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': False,
         },
     },
 }
-
-# Email Configuration
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # For Gmail
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv('EMAIL_USER', 'slabiti1010@gmail.com')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD', 'lxagjigzvodozuje')
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-# For development (print emails to console instead of sending)
-# Uncomment this for testing without real email:
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-# ==========================================
 
 # ========== SECURITY SETTINGS ==========
 # CSRF settings
@@ -316,9 +307,8 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:3000',
     'http://localhost:8000',
     'http://127.0.0.1:8000',
+    'https://car-management-api-xdu8.onrender.com',
 ]
-
-
 
 # Session settings
 SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
@@ -367,3 +357,5 @@ REDOC_SETTINGS = {
 if DEBUG:
     print(f"CORS_ALLOW_ALL_ORIGINS: {CORS_ALLOW_ALL_ORIGINS}")
     print(f"CORS_ALLOWED_ORIGINS: {CORS_ALLOWED_ORIGINS}")
+    print(f"EMAIL_BACKEND: {EMAIL_BACKEND}")
+    print(f"EMAIL_HOST_USER: {EMAIL_HOST_USER}")

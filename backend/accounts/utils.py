@@ -1,3 +1,5 @@
+# accounts/utils.py
+
 from django.core.mail import send_mail
 from django.conf import settings
 import logging
@@ -57,7 +59,7 @@ def send_booking_confirmation_email(booking):
                     </div>
                     
                     <p>You will receive another email once your manager reviews the request.</p>
-                    <p><a href="http://localhost:3000/my-bookings">View My Bookings</a></p>
+                    <p><a href="https://car-management-frontend-w283.onrender.com/my-bookings">View My Bookings</a></p>
                 </div>
                 <div class="footer">
                     <p>&copy; 2025 Fleet Car Management System. All rights reserved.</p>
@@ -83,7 +85,7 @@ def send_booking_confirmation_email(booking):
         Estimated KM: {booking.estimated_km} km
         Status: Pending Approval
         
-        View your bookings: http://localhost:3000/my-bookings
+        View your bookings: https://car-management-frontend-w283.onrender.com/my-bookings
         
         Thanks,
         Fleet Car Management Team
@@ -156,7 +158,7 @@ def send_booking_approved_email(booking):
                     
                     {f'<p><strong>Manager Comments:</strong> {comments}</p>' if comments else ''}
                     
-                    <p><a href="http://localhost:3000/my-bookings">View My Bookings</a></p>
+                    <p><a href="https://car-management-frontend-w283.onrender.com/my-bookings">View My Bookings</a></p>
                 </div>
                 <div class="footer">
                     <p>&copy; 2025 Fleet Car Management System. All rights reserved.</p>
@@ -182,7 +184,7 @@ def send_booking_approved_email(booking):
         
         {f'Manager Comments: {comments}' if comments else ''}
         
-        View your bookings: http://localhost:3000/my-bookings
+        View your bookings: https://car-management-frontend-w283.onrender.com/my-bookings
         
         Thanks,
         Fleet Car Management Team
@@ -254,7 +256,7 @@ def send_booking_rejected_email(booking):
                     
                     {f'<p><strong>Reason:</strong> {comments}</p>' if comments else ''}
                     
-                    <p><a href="http://localhost:3000/cars">Book Another Car</a></p>
+                    <p><a href="https://car-management-frontend-w283.onrender.com/cars">Book Another Car</a></p>
                 </div>
                 <div class="footer">
                     <p>&copy; 2025 Fleet Car Management System. All rights reserved.</p>
@@ -279,7 +281,7 @@ def send_booking_rejected_email(booking):
         
         {f'Reason: {comments}' if comments else ''}
         
-        Book another car: http://localhost:3000/cars
+        Book another car: https://car-management-frontend-w283.onrender.com/cars
         
         Thanks,
         Fleet Car Management Team
@@ -348,7 +350,7 @@ def send_trip_reminder_email(booking):
                         <p><strong>Destination:</strong> {booking.destination}</p>
                     </div>
                     
-                    <p><a href="http://localhost:3000/my-bookings">Go to My Bookings</a></p>
+                    <p><a href="https://car-management-frontend-w283.onrender.com/my-bookings">Go to My Bookings</a></p>
                 </div>
                 <div class="footer">
                     <p>&copy; 2025 Fleet Car Management System. All rights reserved.</p>
@@ -371,7 +373,7 @@ def send_trip_reminder_email(booking):
         End Time: {booking.end_datetime.strftime('%B %d, %Y at %I:%M %p') if booking.end_datetime else 'N/A'}
         Destination: {booking.destination}
         
-        View your bookings: http://localhost:3000/my-bookings
+        View your bookings: https://car-management-frontend-w283.onrender.com/my-bookings
         
         Thanks,
         Fleet Car Management Team
@@ -441,7 +443,7 @@ def send_maintenance_due_email(maintenance):
                         <p><strong>Description:</strong> {maintenance.description}</p>
                     </div>
                     
-                    <p><a href="http://localhost:3000/maintenance">View Maintenance</a></p>
+                    <p><a href="https://car-management-frontend-w283.onrender.com/maintenance">View Maintenance</a></p>
                 </div>
                 <div class="footer">
                     <p>&copy; 2025 Fleet Car Management System. All rights reserved.</p>
@@ -463,7 +465,7 @@ def send_maintenance_due_email(maintenance):
         Estimated Cost: ${maintenance.estimated_cost}
         Description: {maintenance.description}
         
-        View maintenance: http://localhost:3000/maintenance
+        View maintenance: https://car-management-frontend-w283.onrender.com/maintenance
         
         Thanks,
         Fleet Car Management System
@@ -488,8 +490,8 @@ def send_welcome_email(user):
     subject = f'Welcome to Fleet Car Management System!'
     
     try:
-        user_name = user.get_full_name() or user.username if user else 'User'
-        user_email = user.email if user else ''
+        user_name = user.get_full_name() or user.username
+        user_email = user.email
         
         if not user_email:
             print("No user email found, skipping email")
@@ -523,7 +525,7 @@ def send_welcome_email(user):
                         <li><strong>Role:</strong> {user.get_role_display()}</li>
                     </ul>
                     
-                    <p><a href="http://localhost:3000/login">Login to Your Account</a></p>
+                    <p><a href="https://car-management-frontend-w283.onrender.com/login">Login to Your Account</a></p>
                 </div>
                 <div class="footer">
                     <p>&copy; 2025 Fleet Car Management System. All rights reserved.</p>
@@ -545,7 +547,7 @@ def send_welcome_email(user):
         Email: {user.email}
         Role: {user.get_role_display()}
         
-        Login here: http://localhost:3000/login
+        Login here: https://car-management-frontend-w283.onrender.com/login
         
         Thanks,
         Fleet Car Management Team
