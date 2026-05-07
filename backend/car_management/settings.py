@@ -255,6 +255,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 # =====================================================
 
+
 # ========== EMAIL CONFIGURATION WITH BREVO ==========
 # ✅ SWITCHED FROM GMAIL TO BREVO
 # Brevo SMTP Configuration (Works perfectly on Render)
