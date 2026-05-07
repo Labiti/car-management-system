@@ -39,117 +39,242 @@ def home(request):
         </html>
     """)
 
-def create_test_users(request):
-    """One-time endpoint to create test users"""
-    users_data = [
+def create_test_cars(request):
+    """One-time endpoint to create test cars"""
+    from cars.models import Car
+    
+    cars_data = [
         {
-            'username': 'superadmin',
-            'password': 'SuperAdmin2026!',
-            'email': 'superadmin@car.com',
-            'first_name': 'Super',
-            'last_name': 'Admin',
-            'role': 'super_admin',
-            'employee_id': 'SA001',
-            'phone_number': '+27721234001',
-            'driver_license': 'DLSA001',
-            'is_staff': True,
-            'is_superuser': True,
+            'registration_number': 'TOY001GP',
+            'brand': 'Toyota',
+            'model': 'Corolla',
+            'year': 2023,
+            'color': 'Silver',
+            'fuel_type': 'petrol',
+            'transmission': 'automatic',
+            'seats': 5,
+            'status': 'available',
+            'location': 'Main Parking',
+            'current_odometer': 15000,
+            'current_fuel_level': 85,
+            'department_assigned': 'Sales',
+            'daily_rate': 55.00,
+            'notes': 'Great fuel economy, perfect for sales team'
         },
         {
-            'username': 'fleetmanager',
-            'password': 'FleetManager2026!',
-            'email': 'fleetmanager@car.com',
-            'first_name': 'Fleet',
-            'last_name': 'Manager',
-            'role': 'fleet_admin',
-            'employee_id': 'FM001',
-            'phone_number': '+27721234002',
-            'driver_license': 'DLFM001',
-            'is_staff': True,
+            'registration_number': 'HON002GP',
+            'brand': 'Honda',
+            'model': 'Civic',
+            'year': 2023,
+            'color': 'White',
+            'fuel_type': 'petrol',
+            'transmission': 'automatic',
+            'seats': 5,
+            'status': 'available',
+            'location': 'Main Parking',
+            'current_odometer': 12000,
+            'current_fuel_level': 90,
+            'department_assigned': 'Marketing',
+            'daily_rate': 55.00,
+            'notes': 'Comfortable and reliable'
         },
         {
-            'username': 'manager',
-            'password': 'Manager2026!',
-            'email': 'manager@car.com',
-            'first_name': 'John',
-            'last_name': 'Manager',
-            'role': 'manager',
-            'employee_id': 'MGR001',
-            'phone_number': '+27721234003',
-            'driver_license': 'DLMGR001',
+            'registration_number': 'FRD003GP',
+            'brand': 'Ford',
+            'model': 'Ranger',
+            'year': 2024,
+            'color': 'Blue',
+            'fuel_type': 'diesel',
+            'transmission': 'automatic',
+            'seats': 5,
+            'status': 'available',
+            'location': 'West Parking',
+            'current_odometer': 8000,
+            'current_fuel_level': 75,
+            'department_assigned': 'Logistics',
+            'daily_rate': 85.00,
+            'notes': 'Heavy duty for deliveries and cargo'
         },
         {
-            'username': 'employee',
-            'password': 'Employee2026!',
-            'email': 'employee@car.com',
-            'first_name': 'Jane',
-            'last_name': 'Driver',
-            'role': 'employee',
-            'employee_id': 'EMP001',
-            'phone_number': '+27721234004',
-            'driver_license': 'DLEMP001',
+            'registration_number': 'VW004GP',
+            'brand': 'Volkswagen',
+            'model': 'Polo',
+            'year': 2022,
+            'color': 'Red',
+            'fuel_type': 'petrol',
+            'transmission': 'manual',
+            'seats': 5,
+            'status': 'available',
+            'location': 'South Parking',
+            'current_odometer': 35000,
+            'current_fuel_level': 60,
+            'department_assigned': 'Sales',
+            'daily_rate': 45.00,
+            'notes': 'Compact and efficient for city driving'
         },
         {
-            'username': 'supermanager',
-            'password': 'SuperManager2026!',
-            'email': 'supermanager@car.com',
-            'first_name': 'Super',
-            'last_name': 'Manager',
-            'role': 'super_admin',
-            'employee_id': 'SM001',
-            'phone_number': '+27721234005',
-            'driver_license': 'DLSM001',
-            'is_staff': True,
-            'is_superuser': True,
+            'registration_number': 'BMW005GP',
+            'brand': 'BMW',
+            'model': '3 Series',
+            'year': 2024,
+            'color': 'Black',
+            'fuel_type': 'petrol',
+            'transmission': 'automatic',
+            'seats': 5,
+            'status': 'available',
+            'location': 'Executive Parking',
+            'current_odometer': 5000,
+            'current_fuel_level': 95,
+            'department_assigned': 'Executive',
+            'daily_rate': 150.00,
+            'notes': 'Executive car for VIP clients'
+        },
+        {
+            'registration_number': 'MER006GP',
+            'brand': 'Mercedes',
+            'model': 'C-Class',
+            'year': 2023,
+            'color': 'Grey',
+            'fuel_type': 'diesel',
+            'transmission': 'automatic',
+            'seats': 5,
+            'status': 'available',
+            'location': 'Executive Parking',
+            'current_odometer': 45000,
+            'current_fuel_level': 80,
+            'department_assigned': 'Executive',
+            'daily_rate': 140.00,
+            'notes': 'Luxury sedan for executives'
+        },
+        {
+            'registration_number': 'HYU007GP',
+            'brand': 'Hyundai',
+            'model': 'Tucson',
+            'year': 2023,
+            'color': 'White',
+            'fuel_type': 'hybrid',
+            'transmission': 'automatic',
+            'seats': 5,
+            'status': 'available',
+            'location': 'East Parking',
+            'current_odometer': 18000,
+            'current_fuel_level': 80,
+            'department_assigned': 'HR',
+            'daily_rate': 75.00,
+            'notes': 'Eco-friendly hybrid SUV'
+        },
+        {
+            'registration_number': 'KIA008GP',
+            'brand': 'Kia',
+            'model': 'Sportage',
+            'year': 2022,
+            'color': 'Silver',
+            'fuel_type': 'petrol',
+            'transmission': 'automatic',
+            'seats': 5,
+            'status': 'available',
+            'location': 'East Parking',
+            'current_odometer': 28000,
+            'current_fuel_level': 70,
+            'department_assigned': 'IT',
+            'daily_rate': 70.00,
+            'notes': 'Spacious and comfortable'
+        },
+        {
+            'registration_number': 'NIS009GP',
+            'brand': 'Nissan',
+            'model': 'Navara',
+            'year': 2023,
+            'color': 'Orange',
+            'fuel_type': 'diesel',
+            'transmission': 'manual',
+            'seats': 4,
+            'status': 'available',
+            'location': 'West Parking',
+            'current_odometer': 22000,
+            'current_fuel_level': 65,
+            'department_assigned': 'Logistics',
+            'daily_rate': 90.00,
+            'notes': 'Workhorse for heavy loads'
+        },
+        {
+            'registration_number': 'TES010GP',
+            'brand': 'Tesla',
+            'model': 'Model 3',
+            'year': 2024,
+            'color': 'Red',
+            'fuel_type': 'electric',
+            'transmission': 'automatic',
+            'seats': 5,
+            'status': 'available',
+            'location': 'Charging Station',
+            'current_odometer': 3000,
+            'current_fuel_level': 100,
+            'department_assigned': 'Executive',
+            'daily_rate': 180.00,
+            'notes': 'Electric vehicle, eco-friendly'
+        },
+        {
+            'registration_number': 'MZD011GP',
+            'brand': 'Mazda',
+            'model': 'CX-5',
+            'year': 2023,
+            'color': 'Blue',
+            'fuel_type': 'petrol',
+            'transmission': 'automatic',
+            'seats': 5,
+            'status': 'available',
+            'location': 'Main Parking',
+            'current_odometer': 10000,
+            'current_fuel_level': 88,
+            'department_assigned': 'Marketing',
+            'daily_rate': 80.00,
+            'notes': 'Stylish and reliable SUV'
+        },
+        {
+            'registration_number': 'AUD012GP',
+            'brand': 'Audi',
+            'model': 'A4',
+            'year': 2024,
+            'color': 'Black',
+            'fuel_type': 'petrol',
+            'transmission': 'automatic',
+            'seats': 5,
+            'status': 'available',
+            'location': 'Executive Parking',
+            'current_odometer': 2000,
+            'current_fuel_level': 98,
+            'department_assigned': 'Executive',
+            'daily_rate': 160.00,
+            'notes': 'Luxury sedan for executives'
         },
     ]
     
-    created_users = []
+    added_cars = []
     errors = []
     
-    for user_data in users_data:
+    for car_data in cars_data:
         try:
-            user, created = User.objects.get_or_create(
-                username=user_data['username'],
-                defaults={
-                    'email': user_data['email'],
-                    'first_name': user_data['first_name'],
-                    'last_name': user_data['last_name'],
-                    'role': user_data['role'],
-                    'employee_id': user_data['employee_id'],
-                    'phone_number': user_data['phone_number'],
-                    'driver_license': user_data['driver_license'],
-                    'is_active': True,
-                    'is_staff': user_data.get('is_staff', False),
-                    'is_superuser': user_data.get('is_superuser', False),
-                }
+            car, created = Car.objects.get_or_create(
+                registration_number=car_data['registration_number'],
+                defaults=car_data
             )
             if created:
-                user.set_password(user_data['password'])
-                user.save()
-                created_users.append(f"{user.username} ({user.role}) - CREATED")
+                added_cars.append(f"{car.brand} {car.model} ({car.registration_number}) - ADDED")
             else:
-                # Update existing user
-                user.set_password(user_data['password'])
-                user.role = user_data['role']
-                user.first_name = user_data['first_name']
-                user.last_name = user_data['last_name']
-                user.email = user_data['email']
-                user.employee_id = user_data['employee_id']
-                user.phone_number = user_data['phone_number']
-                user.driver_license = user_data['driver_license']
-                user.is_staff = user_data.get('is_staff', False)
-                user.is_superuser = user_data.get('is_superuser', False)
-                user.save()
-                created_users.append(f"{user.username} ({user.role}) - UPDATED")
+                # Update existing car
+                for key, value in car_data.items():
+                    setattr(car, key, value)
+                car.save()
+                added_cars.append(f"{car.brand} {car.model} ({car.registration_number}) - UPDATED")
         except Exception as e:
-            errors.append(f"{user_data['username']}: {str(e)}")
+            errors.append(f"{car_data['registration_number']}: {str(e)}")
     
     return JsonResponse({
-        'message': 'User creation completed',
-        'created_or_updated': created_users,
+        'message': 'Car creation completed',
+        'added_or_updated': added_cars,
         'errors': errors,
-        'total_users': User.objects.count()
+        'total_cars': Car.objects.count()
     })
 
 urlpatterns = [
@@ -162,8 +287,8 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view()),
     path('api/reports/', include('reports.urls')),
     path('api/token/refresh/', TokenRefreshView.as_view()),
-    path('create-test-users/', create_test_users),  # ADD THIS LINE
-]
+    path('create-test-cars/', create_test_cars),  # ADD THIS LINE
+    ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
