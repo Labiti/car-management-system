@@ -26,4 +26,4 @@ RUN mkdir -p /app/media /app/staticfiles
 EXPOSE 8000
 
 # This command runs migrations then starts the server
-CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn car_management.wsgi:application --bind 0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn car_management.wsgi:application --bind 0.0.0.0:$PORT"]
