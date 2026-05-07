@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_filters',
     'drf_yasg',
+    'anymail',  # ✅ ADD THIS LINE for Brevo
     
     # Your local apps
     'accounts',
@@ -99,8 +100,8 @@ if os.getenv('RENDER'):
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.getenv('DB_NAME', 'car_management_db'),
-        'USER': os.getenv('DB_USER', 'caruser'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'Zca0OK99mkL1NWwEvNaRV59TcFAArQiF'),
+            'USER': os.getenv('DB_USER', 'caruser'),
+            'PASSWORD': os.getenv('DB_PASSWORD', 'Zca0OK99mkL1NWwEvNaRV59TcFAArQiF'),
             'HOST': os.getenv('DB_HOST'),
             'PORT': os.getenv('DB_PORT', '5432'),
         }
@@ -254,15 +255,26 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 # =====================================================
 
-# ========== EMAIL CONFIGURATION (FIXED - NO DUPLICATES) ==========
-# Single email configuration - USE THIS ONLY
+# ========== EMAIL CONFIGURATION WITH BREVO ==========
+# ✅ SWITCHED FROM GMAIL TO BREVO
+# Brevo SMTP Configuration (Works perfectly on Render)
+
+# Option 1: Using SMTP (Recommended - Most compatible)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp-relay.brevo.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv('EMAIL_USER', 'slabiti1010@gmail.com')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD', 'lxagjigzvodozuje')
-DEFAULT_FROM_EMAIL = f'Fleet Car Management <{EMAIL_HOST_USER}>'
+EMAIL_HOST_USER = os.getenv('BREVO_USERNAME', 'slabiti1010@gmail.com')  # Your Brevo login email
+EMAIL_HOST_PASSWORD = os.getenv('BREVO_PASSWORD', 'xsmtpsib-e339e7ba2bfc367231a513dc1697954fdbf0e4265c6f046b0e76b64a721058c9-UoXsLp5Pr0Efp7Ps')  # Your Brevo SMTP key
+DEFAULT_FROM_EMAIL = os.getenv('BREVO_USERNAME', 'slabiti1010@gmail.com')
+EMAIL_TIMEOUT = 30
+
+# Option 2: Using Anymail API (Uncomment to use - Better performance)
+# EMAIL_BACKEND = "anymail.backends.brevo.EmailBackend"
+# ANYMAIL = {
+#     "BREVO_API_KEY": os.getenv('BREVO_API_KEY'),  # Create API key in Brevo dashboard
+# }
+# DEFAULT_FROM_EMAIL = os.getenv('BREVO_USERNAME', 'slabiti1010@gmail.com')
 
 # For development testing (print emails to console instead of sending)
 # Uncomment this line and comment the above EMAIL_BACKEND to test without real emails:
@@ -353,9 +365,10 @@ REDOC_SETTINGS = {
 }
 # =================================================
 
-# Print CORS configuration for debugging (remove in production)
+# Print configuration for debugging (remove in production)
 if DEBUG:
     print(f"CORS_ALLOW_ALL_ORIGINS: {CORS_ALLOW_ALL_ORIGINS}")
     print(f"CORS_ALLOWED_ORIGINS: {CORS_ALLOWED_ORIGINS}")
     print(f"EMAIL_BACKEND: {EMAIL_BACKEND}")
+    print(f"EMAIL_HOST: {EMAIL_HOST}")
     print(f"EMAIL_HOST_USER: {EMAIL_HOST_USER}")
