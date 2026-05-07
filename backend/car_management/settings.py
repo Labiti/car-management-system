@@ -98,9 +98,9 @@ if os.getenv('RENDER'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv('DB_NAME'),
-            'USER': os.getenv('DB_USER'),
-            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'NAME': os.getenv('DB_NAME', 'car_management_db'),
+            'USER': os.getenv('DB_USER', 'car_user'),
+            'PASSWORD': os.getenv('DB_PASSWORD', 'root2026!@'),
             'HOST': os.getenv('DB_HOST'),
             'PORT': os.getenv('DB_PORT', '5432'),
         }
