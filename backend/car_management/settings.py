@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_filters',
     'drf_yasg',
-    'anymail',  # ✅ ADD THIS LINE for Brevo
     
     # Your local apps
     'accounts',
