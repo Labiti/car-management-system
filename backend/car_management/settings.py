@@ -255,7 +255,6 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 # =====================================================
 
-
 # ========== EMAIL CONFIGURATION WITH BREVO ==========
 # ✅ SWITCHED FROM GMAIL TO BREVO
 # Brevo SMTP Configuration (Works perfectly on Render)
@@ -266,7 +265,7 @@ EMAIL_HOST = 'smtp-relay.brevo.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('BREVO_USERNAME', 'slabiti1010@gmail.com')  # Your Brevo login email
-EMAIL_HOST_PASSWORD = os.getenv('BREVO_PASSWORD', 'xsmtpsib-e339e7ba2bfc367231a513dc1697954fdbf0e4265c6f046b0e76b64a721058c9-UoXsLp5Pr0Efp7Ps')  # Your Brevo SMTP key
+EMAIL_HOST_PASSWORD = os.getenv('BREVO_PASSWORD', '')  # Your Brevo SMTP key
 DEFAULT_FROM_EMAIL = os.getenv('BREVO_USERNAME', 'slabiti1010@gmail.com')
 EMAIL_TIMEOUT = 30
 
