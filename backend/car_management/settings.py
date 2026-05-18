@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_filters',
     'drf_yasg',
+    'anymail',  # ✅ ADDED: For better email handling
     
     # Your local apps
     'accounts',
@@ -254,33 +255,39 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 # =====================================================
 
-# ========== EMAIL CONFIGURATION WITH BREVO ==========
-# ✅ SWITCHED FROM GMAIL TO BREVO
-# Brevo SMTP Configuration (Works perfectly on Render)
+# ========== EMAIL CONFIGURATION WITH BREVO (UPDATED - Using Anymail) ==========
+# ✅ SWITCHED FROM SMTP TO ANYMAIL FOR BETTER PERFORMANCE ON RENDER
 
-# Option 1: Using SMTP (Recommended - Most compatible)
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp-relay.brevo.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv('BREVO_USERNAME', 'slabiti1010@gmail.com')  # Your Brevo login email
-EMAIL_HOST_PASSWORD = os.getenv('BREVO_PASSWORD', '')  # Your Brevo SMTP key
+# Using Anymail with Brevo API (More reliable than SMTP on Render)
+EMAIL_BACKEND = "anymail.backends.sendinblue.EmailBackend"  # Sendinblue is Brevo's old name
+
+ANYMAIL = {
+    "SENDINBLUE_API_KEY": os.getenv('BREVO_API_KEY'),  # Your Brevo API key from .env
+}
+
 DEFAULT_FROM_EMAIL = os.getenv('BREVO_USERNAME', 'slabiti1010@gmail.com')
-EMAIL_TIMEOUT = 30
+EMAIL_TIMEOUT = 60  # Increased timeout for Render
 
-# Option 2: Using Anymail API (Uncomment to use - Better performance)
-# EMAIL_BACKEND = "anymail.backends.brevo.EmailBackend"
-# ANYMAIL = {
-#     "BREVO_API_KEY": os.getenv('BREVO_API_KEY'),  # Create API key in Brevo dashboard
-# }
-# DEFAULT_FROM_EMAIL = os.getenv('BREVO_USERNAME', 'slabiti1010@gmail.com')
+# Optional: Better error handling
+ANYMAIL_IGNORE_RECIPIENT_STATUS = False
 
 # For development testing (print emails to console instead of sending)
 # Uncomment this line and comment the above EMAIL_BACKEND to test without real emails:
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Fallback to SMTP if Anymail fails (optional)
+# If you want to keep SMTP as backup, you can use this:
+# import sys
+# if 'anymail' not in sys.modules:
+#     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#     EMAIL_HOST = 'smtp-relay.brevo.com'
+#     EMAIL_PORT = 587
+#     EMAIL_USE_TLS = True
+#     EMAIL_HOST_USER = os.getenv('BREVO_USERNAME', 'slabiti1010@gmail.com')
+#     EMAIL_HOST_PASSWORD = os.getenv('BREVO_PASSWORD', '')
 # ==============================================================
 
-# ========== LOGGING CONFIGURATION ==========
+# ========== LOGGING CONFIGURATION (UPDATED for email debugging) ==========
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -291,6 +298,10 @@ LOGGING = {
         'file': {
             'class': 'logging.FileHandler',
             'filename': BASE_DIR / 'debug.log',
+        },
+        'email_file': {
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'email_debug.log',
         },
     },
     'root': {
@@ -308,8 +319,19 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
+        'django.core.mail': {
+            'handlers': ['console', 'email_file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'anymail': {
+            'handlers': ['console', 'email_file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
     },
 }
+# ==============================================================
 
 # ========== SECURITY SETTINGS ==========
 # CSRF settings
@@ -369,5 +391,5 @@ if DEBUG:
     print(f"CORS_ALLOW_ALL_ORIGINS: {CORS_ALLOW_ALL_ORIGINS}")
     print(f"CORS_ALLOWED_ORIGINS: {CORS_ALLOWED_ORIGINS}")
     print(f"EMAIL_BACKEND: {EMAIL_BACKEND}")
-    print(f"EMAIL_HOST: {EMAIL_HOST}")
-    print(f"EMAIL_HOST_USER: {EMAIL_HOST_USER}")
+    print(f"DEFAULT_FROM_EMAIL: {DEFAULT_FROM_EMAIL}")
+    print(f"ANYMAIL configured: {'SENDINBLUE_API_KEY' in ANYMAIL}")
